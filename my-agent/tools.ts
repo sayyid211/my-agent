@@ -14,7 +14,6 @@ type FileChange = z.infer<typeof fileChange>;
 import {tool } from "ai";
 import { simpleGit } from "simple-git";
 
-//...previous code
 
 const excludeFiles = ["dist", "bun.lock"];
 
