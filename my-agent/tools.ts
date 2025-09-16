@@ -1,15 +1,14 @@
-/**
- * defines schema for file changes 
- */
-import {z } from "zod";
+import {tool } from "ai";
+import { simpleGit } from "simple-git";
+import { z } from "zod";
+
+const excludeFiles = ["dist", "bun.lock"];
+
 const fileChange = z.object({
     rootDir: z.string().min(1).describe("The root directory"),
 });
 type FileChange = z.infer<typeof fileChange>;
 
-/**
-* defines schema for commit changes
-**/
 
 const commitInput = z.object({
 	rootDir: z.string().min(1).describe("The root directory"),
@@ -29,16 +28,12 @@ type MarkdownInput = z.infer<typeof markdownInput>;
  * use simple-git to get changes in the directory
  */
 
-import {tool } from "ai";
-import { simpleGit } from "simple-git";
 
-
-const excludeFiles = ["dist", "bun.lock"];
-
-async function getfileChangesInDirectory({rootDir}: FileChange) {
+async function getfileChangesInDirectory({ rootDir }: FileChange) {
     const git = simpleGit(rootDir);
     const summary = await git.diffSummary();
     const diffs: { file: string; diff: string }[] = [];
+    
     for (const file of summary.files) {
         if (excludeFiles.includes(file.file)) continue;
         const diff = await git.diff(["--", file.file]);

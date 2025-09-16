@@ -31,5 +31,5 @@ const codeReviewAgent = async (prompt: string) => {
   
 // specify code base to be reviewed
 await codeReviewAgent(
-    "Review the code changes in `../my-agent` directory, make your reviews and suggestions file by file."
+    "Review the code changes in `.` directory, make your reviews and suggestions file by file."
 );
